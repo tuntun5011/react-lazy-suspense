@@ -1,8 +1,15 @@
 import React, { Suspense, lazy } from 'react';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
+//延时加载
+const delayImport = (value, time=1000) => {
+    return new Promise(resolve => {
+        setTimeout(() => resolve(value), time)
+    });
+};
+
 const Home = lazy(() => import('./Home'));
-const Page1 = lazy(() => import('./Page1'));
+const Page1 = lazy(() => delayImport(import('./Page1'),1000));
 
 
 
