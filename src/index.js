@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-import App from './demo1/App1';
+// import App from './demo1/App1';
 // import App from './demo2/app-without-lazy';
-// import App from './demo2/app-with-lazy';
+import App from './demo2/app-with-lazy';
 
 
 

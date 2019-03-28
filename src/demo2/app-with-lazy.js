@@ -1,6 +1,11 @@
 import React, { Component, Suspense } from "react";
 import './css0.css';
 
+
+/**
+ * 对于按需加载的组件  延迟加载
+ * */
+
 const LazyPDFDocument = React.lazy(() => import("./PDFPreview"));
 
 

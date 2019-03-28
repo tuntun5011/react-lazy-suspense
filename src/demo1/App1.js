@@ -8,8 +8,14 @@ const delayImport = (value, time=1000) => {
     });
 };
 
+
+/**
+ * 基于路由的代码分割，可以替换react-loadable
+ * */
 const Home = lazy(() => import('./Home'));
-const Page1 = lazy(() => delayImport(import('./Page1'),1000));
+const Page1 = lazy(() => import('./Page1'));
+// const Page1 = lazy(() => delayImport(import('./Page1'),1000));
+
 
 
 
