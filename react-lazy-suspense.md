@@ -1,6 +1,5 @@
 ###### 背景：按需加载 & 代码分割
 
-
 **1.静态加载(es6 import)**
 
 ```
@@ -63,9 +62,9 @@ class MyComponent extends Component {
 结论：动态 import 主要应用场景是延迟加载方法，对于组件来说并不是很适用，但是 React.lazy 对于组件的加载则是有比较大的帮助。
 ***
 
-###### React.lazy & React.Suspense
+## React.lazy & React.Suspense
 
-######React.lazy
+###React.lazy
 
 -  React.lazy方法接受一个函数作为参数，函数内部调用动态import()方法加载一个函数，返回一个Promise，并解析(resolve)为一个带有包含React组件的默认导出的模块（export default）。
 -  把条件渲染细节挪到了框架层，允许把动态导入的组件当作普通组件一样渲染。
@@ -116,7 +115,7 @@ import React, { lazy } from 'react';
 const MyComponent = lazy(() => import("./MyComponent.js"));
 ```
 
-###### Suspense 
+### Suspense 
  
 -  该组件在加载bundle过程中提供加载标识，比如loading。  有一个必填属性fallback，接收任何react元素。 Suspense可以放在lazy组件只上的任何位置，也可以包含多个lazy组件。没被Suspense包起来的Lazy组件会报错。
 - 在由于网络等原因失败的情况下，可以结合使用自定义Error boundaries组件处理错误。Error boundaries组件需要在lazy组件之上。
@@ -139,10 +138,10 @@ function MyComponent() {
 }
 ```
 
-##### react-loadable:
+### react-loadable:
 - 核心原理为: 高阶组件 + webpack dynamic import
 
-2.异同：
+1.异同：
 
 - react.lazy & react.Suspense属于react框架，react-loadable是第三方库。 
 - 代码分割：React.lazy和react-loadable打出的包及大小都是一样的。 
