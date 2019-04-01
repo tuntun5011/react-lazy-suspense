@@ -64,7 +64,7 @@ class MyComponent extends Component {
 
 ## React.lazy & Suspense
 
-###React.lazy
+### React.lazy
 
 -  React.lazy方法接受一个函数作为参数，函数内部调用动态import()方法，返回一个Promise，并解析(resolve)为一个带有包含React组件的默认导出的模块（export default）。
 -  把条件渲染细节挪到了框架层，允许把动态导入的组件当作普通组件一样渲染。
@@ -161,7 +161,7 @@ const App = () => (
 ```
 
 ### 与react-loadable的比较
-- react-loadable核心原理为: 高阶组件 + webpack dynamic import
+react-loadable核心原理为: 高阶组件 + webpack dynamic import
 
 1. 异同：
 
