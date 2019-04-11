@@ -1,0 +1,29 @@
+
+.wrapper{
+    text-align: center;
+    padding: 50px;
+    margin: auto;
+}
+.title{
+
+    font-size: 30px;
+}
+
+.btn{
+
+    width: 100px;
+    height: 40px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #0760bdb5;
+    text-align: center;
+    line-height: 40px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.loading{
+    text-align: center;
+    padding-top: 100px;
+    margin: auto;
+}

@@ -1,4 +1,4 @@
-### 文件加载方式
+### 背景：文件加载方式
 
 **1. 静态加载(es6 import)**
 
@@ -59,7 +59,7 @@ class MyComponent extends Component {
  * 布局有抖动体验不好（需要对不同组件加很多loading）。
  
 
-结论：动态 import 主要应用场景是延迟加载方法，对于组件来说并不是很适用，但是 React.lazy 对于组件的加载则是有比较大的帮助。
+结论：动态 import 主要应用场景是延迟加载方法，对于组件来说并不是很适用， React.lazy 可以解决组件的懒加载。
 
 
 ## React.lazy & Suspense
@@ -99,7 +99,7 @@ function MyComponent() {
 
 这样只会在组件渲染的时候才会去加载包含OtherComponent的bundle，（webpack编译时已基于import()自动对代码进行了分割）。
 
-P.S.   React.lazy目前仅支持默认导出。如果要导入的模块使用命名导出，则可以创建一个中间模块，将其重新导出为默认模块。这可以确保主框架不变，并且不会加载未使用的组件。
+P.S.   React.lazy目前仅支持默认导出。如果要导入的模块使用命名导出，则可以创建一个中间模块，将其重新导出为默认模块。
 
 ```
 // ManyComponents.js
@@ -119,45 +119,61 @@ const MyComponent = lazy(() => import("./MyComponent.js"));
 ### Suspense 
  
 -  该组件在加载bundle过程中提供加载标识，比如loading。  有一个必填属性fallback，接收任何react元素。 Suspense可以放在lazy组件之上的任何位置，也可以包含多个lazy组件。没被Suspense包起来的lazy组件会报错。
-- 在由于网络等原因失败的情况下，可以结合使用自定义Error boundaries组件处理错误。Error boundaries组件需要在lazy组件之上。
+- 在由于网络等原因失败的情况下，可以结合使用自定义Error boundaries组件处理错误。
+
+* Error boundaries 错误边界组件
+
+	如果懒加载模块加载失败会触发error。可以通过使用Error boundaries来处理这些错误，显示更友好的错误界面。一旦创建好Error boundaries组件，可以在懒加载组件上方任何位置使用它。
+	
+	只要一个组件内部定义了静态getDerivedStateFromError()或者 componentDidCatch()方法，这个组件就是错误边界组件。getDerivedStateFromError用来渲染错误提示UI，componentDidCatch用来记录错误信息。
 
 ```
-import React, { Suspense } from 'react';
+import MyErrorBoundary from './MyErrorBoundary';
 const OtherComponent = React.lazy(() => import('./OtherComponent'));
 const AnotherComponent = React.lazy(() => import('./AnotherComponent'));
 
-function MyComponent() {
-  return (
-    <div>
+const MyComponent = () => (
+  <div>
+    <MyErrorBoundary>
       <Suspense fallback={<div>Loading...</div>}>
         <section>
           <OtherComponent />
           <AnotherComponent />
         </section>
       </Suspense>
-    </div>
-  );
-}
+    </MyErrorBoundary>
+  </div>
+);
 ```
+	
 
 ### 结合路由的代码分割
 ```
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Route } from 'react-router';
 
-const Home = lazy(() => import('./routes/Home'));
-const About = lazy(() => import('./routes/About'));
+/**
+ * 基于路由的代码分割，可以替换react-loadable
+ * */
+const Home = lazy(() => import('./Home'));
+const Block1 = lazy(() => import('./Block1'));
+const Block2 = lazy(() => import('./Block2'));
 
-const App = () => (
-  <Router>
-    <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/about" component={About}/>
-      </Switch>
-    </Suspense>
-  </Router>
-);
+const App = () => {
+  return (
+      <Router>
+          <Suspense fallback={<div className='loading'>loading...</div>}>
+              <div>
+                  <Route path="/" component={Home} />
+                  <Route path="/Block1" component={Block1} />
+                  <Route path="/Block2" component={Block2} />
+              </div>
+          </Suspense>
+      </Router>
+  )
+};
+
 ```
 
 ### 与react-loadable的比较

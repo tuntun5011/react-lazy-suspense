@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PDFPreview from "./PDFPreview";
 
-import './css0.css';
+import './app2.css';
 
 class App extends Component {
     state = {
