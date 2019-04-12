@@ -1,4 +1,6 @@
-### 背景：文件加载方式
+### React.lazy & Suspense目的：代码拆分
+
+#### 文件加载方式
 
 **1. 静态加载(es6 import)**
 
@@ -20,7 +22,7 @@ import("./math").then(math => {
   console.log(math.add(1,2));
 });
 ```
-遵循promise规范。webpack已支持动态import，webpack遇到import() 语法会自动进行代码拆分。 目前动态 import 仍旧是 ECMAScript 的提案，并没有纳入规范。
+遵循promise规范。webpack已支持动态import，webpack遇到import() 语法会自动进行代码拆分。 目前动态 import 仍旧是 ECMAScript 的提案，还没有纳入规范。
 
 特点：
 
@@ -28,7 +30,7 @@ import("./math").then(math => {
  - 可以在代码的任何地方使用。
  - import()能够传递字符串，可以根据需求构造匹配符。
  
-条件加载example:
+条件渲染:
 
 ```
 class MyComponent extends Component {
@@ -150,15 +152,15 @@ const MyComponent = () => (
 ### 结合路由的代码分割
 ```
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Route } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 /**
  * 基于路由的代码分割，可以替换react-loadable
  * */
 const Home = lazy(() => import('./Home'));
-const Block1 = lazy(() => import('./Block1'));
-const Block2 = lazy(() => import('./Block2'));
+const Page1 = lazy(() => import('./Page1'));
+const Page2 = lazy(() => import('./Page2'));
+
 
 const App = () => {
   return (
@@ -166,8 +168,8 @@ const App = () => {
           <Suspense fallback={<div className='loading'>loading...</div>}>
               <div>
                   <Route path="/" component={Home} />
-                  <Route path="/Block1" component={Block1} />
-                  <Route path="/Block2" component={Block2} />
+                  <Route path="/Page1" component={Page1} />
+                  <Route path="/Page2" component={Page2} />
               </div>
           </Suspense>
       </Router>
