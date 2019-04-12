@@ -6,8 +6,8 @@ import ErrorBoundary from "./ErrorBoundary";
  * 对于按需加载的组件  延迟加载
  * */
 
-// const LazyPDFDocument = React.lazy(() => import("./PDFPreview"));
-const LazyPDFDocument = React.lazy(() => {return new Promise((resolve,reject) => reject())});
+const LazyPDFDocument = React.lazy(() => import("./PDFPreview"));
+// const LazyPDFDocument = React.lazy(() => {return new Promise((resolve,reject) => reject())});
 
 
 
